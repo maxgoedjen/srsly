@@ -18,10 +18,12 @@ class PlaylistManager(SpotifySessionManager):
 		self.playlist_container = session.playlist_container()
 
 	def add_to_playlist(self, track):
-		print 'Adding %s' % (track.name())
 		playlist = self.playlist()
-		if track not in playlist:
+		if not playlist or playlist[-1].name() != track.name():
+			print 'Adding %s - %s' % (track.name(), [x.name() for x in track.artists()])
 			playlist.add_tracks(0, [track])
+		else:
+			print 'Not adding duplicate %s' % (track.name())
 		self.trim_playlist(playlist)
 			
 	def playlist(self):
