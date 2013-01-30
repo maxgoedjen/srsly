@@ -20,7 +20,8 @@ class PlaylistManager(SpotifySessionManager):
 	def add_to_playlist(self, track):
 		print 'Adding %s' % (track.name())
 		playlist = self.playlist()
-		playlist.add_tracks(0, [track])
+		if track not in playlist:
+			playlist.add_tracks(0, [track])
 		self.trim_playlist(playlist)
 			
 	def playlist(self):
@@ -33,7 +34,7 @@ class PlaylistManager(SpotifySessionManager):
 
 		
 	def trim_playlist(self, playlist):
-		print len(playlist)
+		pass
 		
 	def add_track_for_query(self, query):
 		def search_handler(results, userinfo):
