@@ -36,3 +36,5 @@ nosetests.xml
 
 # Spotify
 spotify_appkey.key
+
+tmp/*
