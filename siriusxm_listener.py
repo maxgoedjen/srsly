@@ -2,7 +2,7 @@ import time
 from bs4 import BeautifulSoup
 import requests
 
-REFRESH_INTERVAL = 10
+REFRESH_INTERVAL = 30
 
 class SiriusXMListener(object):
 	def __init__(self, channel_number):
