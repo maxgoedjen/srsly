@@ -12,8 +12,8 @@ if __name__ == '__main__':
     (options, args) = op.parse_args()
         
     playlist_manager = PlaylistManager(options.username, options.password, True)
-    
+    playlist_manager.connect()
+
     listener = SiriusXMListener(options.channel)
     listener.listen(playlist_manager.add_track_for_query)
     
-    playlist_manager.connect()

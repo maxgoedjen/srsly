@@ -1,4 +1,5 @@
 import os
+import threading
 
 from spotify import ArtistBrowser, Link, ToplistBrowser, SpotifyError, Track
 from spotify.manager import (SpotifySessionManager, SpotifyContainerManager)
@@ -9,6 +10,10 @@ PLAYLIST_MAX_LENGTH = 100
 class PlaylistManager(SpotifySessionManager):
 
 	appkey_file = os.path.join(os.path.dirname(__file__), 'spotify_appkey.key')
+	
+	def connect(self):
+		download_thread = threading.Thread(target=SpotifySessionManager.connect, args=[self])
+		download_thread.start()
 		
 	def logged_in(self, session, error):
 		if error:
@@ -19,11 +24,9 @@ class PlaylistManager(SpotifySessionManager):
 
 	def add_to_playlist(self, track):
 		playlist = self.playlist()
-		if not playlist or playlist[-1].name() != track.name():
-			print 'Adding %s - %s' % (track.name(), [x.name() for x in track.artists()])
+		if not playlist or playlist[0].name() != track.name():
+			print 'Adding %s - %s' % (track.name(), track.artists()[0].name())
 			playlist.add_tracks(0, [track])
-		else:
-			print 'Not adding duplicate %s' % (track.name())
 		self.trim_playlist(playlist)
 			
 	def playlist(self):
@@ -43,5 +46,5 @@ class PlaylistManager(SpotifySessionManager):
 			if results and results.tracks():
 				self.add_to_playlist(results.tracks()[0])
 			else:
-				print 'Unable to find track'
+				print 'Unable to find track: %s' % query
 		self.session.search(query, search_handler)

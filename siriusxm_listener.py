@@ -1,9 +1,8 @@
 import time
 from bs4 import BeautifulSoup
 import requests
-from threading import Timer
 
-REFRESH_INTERVAL = 30
+REFRESH_INTERVAL = 10
 
 class SiriusXMListener(object):
 	def __init__(self, channel_number):
@@ -11,8 +10,12 @@ class SiriusXMListener(object):
 	
 	def listen(self, callback):
 		self.callback = callback
-		self.extract_now_playing()
-		Timer(REFRESH_INTERVAL, self.extract_now_playing).start()		
+		self.listenForever()
+		
+	def listenForever(self):
+		while True:
+			self.extract_now_playing()
+			time.sleep(5)
 
 	def extract_now_playing(self):
 		r = requests.get('http://www.dogstarradio.com/now_playing.php')
