@@ -15,11 +15,14 @@ class SiriusXMListener(object):
 	def listenForever(self):
 		while True:
 			self.extract_now_playing()
-			time.sleep(5)
+			time.sleep(REFRESH_INTERVAL)
 
 	def extract_now_playing(self):
-		r = requests.get('http://www.dogstarradio.com/now_playing.php')
-		soup = BeautifulSoup(r.text, 'html5lib')
-		div_id_name = 'channel%s' % self.channel
-		query = soup.find('div', id=div_id_name).get_text()
-		self.callback(query)
+		try:
+			r = requests.get('http://www.dogstarradio.com/now_playing.php')
+			soup = BeautifulSoup(r.text, 'html5lib')
+			div_id_name = 'channel%s' % self.channel
+			query = soup.find('div', id=div_id_name).get_text()
+			self.callback(query)
+		except:
+			print 'Error extracting text. Retrying in %s seconds' % REFRESH_INTERVAL
