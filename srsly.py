@@ -3,6 +3,9 @@
 from playlist_manager import *
 from siriusxm_listener import *
 
+# Default to Sirius XMU
+DEFAULT_CHANNEL = '35'
+
 if __name__ == '__main__':
     import optparse
     op = optparse.OptionParser(version="%prog 0.1")
@@ -14,6 +17,5 @@ if __name__ == '__main__':
     playlist_manager = PlaylistManager(options.username, options.password, True)
     playlist_manager.connect()
 
-    listener = SiriusXMListener(options.channel)
+    listener = SiriusXMListener(options.channel if options.channel else DEFAULT_CHANNEL)
     listener.listen(playlist_manager.add_track_for_query)
-    
