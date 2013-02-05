@@ -24,7 +24,7 @@ class PlaylistManager(SpotifySessionManager):
 
 	def add_to_playlist(self, track):
 		playlist = self.playlist()
-		if not playlist or playlist[-1].name() != track.name():
+		if not playlist or track.name() not in [x.name() for x in list(playlist)[-5:]]:
 			print 'Adding %s - %s' % (track.name(), track.artists()[0].name())
 			playlist.add_tracks(len(playlist), [track])
 		self.trim_playlist(playlist)
