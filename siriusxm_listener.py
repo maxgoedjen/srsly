@@ -24,5 +24,5 @@ class SiriusXMListener(object):
 			div_id_name = 'channel%s' % self.channel
 			query = soup.find('div', id=div_id_name).get_text()
 			self.callback(query)
-		except:
+		except Exception:
 			print 'Error extracting text. Retrying in %s seconds' % REFRESH_INTERVAL
