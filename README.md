@@ -1,3 +1,6 @@
+# WARNING - srsly is deprecated in favor of [canis](https://github.com/maxgoedjen/canis)
+
+
 # srsly
 
 A Spotify playlist generator that adds songs as they're played on Sirius XM.
